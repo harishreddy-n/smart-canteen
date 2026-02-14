@@ -1,5 +1,6 @@
 // --- API CONFIGURATION ---
-const API_URL = "http://localhost:5000/api";
+const API_URL = "https://smart-canteen-1-r4hh.onrender.com/api";
+
 
 // --- MENU DATABASE ---
 const menuDB = [
