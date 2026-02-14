@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Eco Canteen</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- AUTH VIEW -->
+    <div id="auth-view" class="view-section active">
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="auth-brand">🌱 Smart Eco Canteen</div>
+                
+                <!-- LOGIN FORM -->
+                <div id="login-form" class="auth-form active">
+                    <h2>Login</h2>
+                    <input type="email" id="login-email" placeholder="Email" required>
+                    <input type="password" id="login-password" placeholder="Password" required>
+                    <button onclick="handleLogin()" class="auth-btn">Login</button>
+                    <p style="text-align:center; margin-top:15px; color:#6b7280;">
+                        No account? <a href="#" onclick="toggleAuthForm()" style="color:var(--primary); cursor:pointer; text-decoration:none; font-weight:600;">Register</a>
+                    </p>
+                </div>
+
+                <!-- REGISTER FORM -->
+                <div id="register-form" class="auth-form">
+                    <h2>Create Account</h2>
+                    <input type="text" id="register-name" placeholder="Full Name" required>
+                    <input type="email" id="register-email" placeholder="Email" required>
+                    <input type="password" id="register-password" placeholder="Password" required>
+                    <button onclick="handleRegister()" class="auth-btn">Register</button>
+                    <p style="text-align:center; margin-top:15px; color:#6b7280;">
+                        Already have an account? <a href="#" onclick="toggleAuthForm()" style="color:var(--primary); cursor:pointer; text-decoration:none; font-weight:600;">Login</a>
+                    </p>
+                </div>
+
+                <div id="auth-message" class="auth-message"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- USER VIEW -->
+    <div id="user-view" class="view-section">
+        <header>
+            <div class="brand"><span>🌱</span> Smart Eco Canteen</div>
+            <button class="role-btn" onclick="handleLogout()">👤 Logout</button>
+            <button class="role-btn" onclick="viewSeats()">🪑 View Seats</button>
+        </header>
+
+        <div class="content-wrapper">
+            <h2 style="margin-bottom: 10px; color: #111827;">Our Menu 📜</h2>
+            <div id="menu-container"></div>
+        </div>
+    </div>
+
+    <!-- ORDER TRACKING VIEW -->
+    <div id="token-view" class="view-section">
+    <header>
+        <div class="brand"><span>🌱</span> Smart Eco Canteen</div>
+        <button class="role-btn" onclick="handleLogout()">👤 Logout</button>
+    </header>
+
+    <div class="content-wrapper">
+        <div class="token-card">
+            <h1 style="color: var(--primary); margin:0; font-size: 1.5rem;">Order Placed! ✅</h1>
+            
+            <p style="color: #6b7280; font-size: 0.9rem; margin-top: 15px;">Token Number:</p>
+            <div class="token-circle" id="token-number">#--</div>
+
+            <p style="color: #6b7280; font-size: 0.9rem; margin-top: 15px;">Order Code:</p>
+            <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary); margin-bottom: 15px;" id="order-code">XXXXXX</div>
+
+            <div class="tracker-container">
+                <div class="progress-line-bg"></div>
+                <div class="progress-line-fill" id="progress-fill"></div>
+                
+                <div class="tracker-steps">
+                    <div class="step active" id="step-1">📄</div>
+                    <div class="step" id="step-2">🔥</div>
+                    <div class="step" id="step-3">✅</div>
+                </div>
+            </div>
+
+            <div class="status-text" id="live-status-text">Order Received...</div>
+            <br>
+            
+            <button class="role-btn" id="new-order-btn" style="background:var(--primary); color:white; border:none; padding:10px 30px; display: none;" onclick="resetApp()">Order Again</button>
+        </div>
+    </div>
+</div>
+
+    <!-- ADMIN VIEW -->
+    <!-- ADMIN VIEW -->
+<div id="admin-view" class="view-section">
+    <header>
+        <div class="brand"><span>🌱</span> Smart Eco Canteen</div>
+        <button class="role-btn" onclick="handleLogout()">👤 Logout</button>
+    </header>
+
+    <div class="content-wrapper">
+        <div class="dashboard-header">
+            <div class="admin-title">📊 Owner Dashboard</div>
+            <p style="color: #6b7280;">Real-time Analytics & AI Insights</p>
+        </div>
+
+        <!-- STATS ROW -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <div>
+                    <div class="stat-val" id="total-revenue">₹0</div>
+                    <div class="stat-label">Total Revenue</div>
+                </div>
+                <div class="stat-icon-bg" style="background:#ecfdf5; color:#059669;">💰</div>
+            </div>
+            <div class="stat-card">
+                <div>
+                    <div class="stat-val" id="total-orders">0</div>
+                    <div class="stat-label">Total Orders</div>
+                </div>
+                <div class="stat-icon-bg" style="background:#eff6ff; color:#2563eb;">📦</div>
+            </div>
+        </div>
+
+        <!-- AI SECTION -->
+        <div class="ai-hero">
+            <div style="margin-bottom: 20px;">
+                <h2 style="margin:0; font-size:1.4rem; color:white;">🤖 AI Chef Intelligence</h2>
+                <p style="margin:5px 0 0 0; opacity:0.9; font-size:0.9rem; color:white;">Smart Cooking Recommendations</p>
+            </div>
+
+            <div class="insight-grid">
+                <div class="insight-card">
+                    <div class="insight-title">📈 Predicted Traffic</div>
+                    <div class="insight-value" id="traffic-level">Medium</div>
+                    <div class="insight-desc" id="traffic-reason">Normal traffic expected</div>
+                </div>
+                <div class="insight-card">
+                    <div class="insight-title">🌦️ Weather Impact</div>
+                    <div class="insight-value" id="weather-factor">Normal</div>
+                    <div class="insight-desc">Seasonal adjustments applied</div>
+                </div>
+                <div class="insight-card" style="background: rgba(255,255,255,0.2); border-color:white;">
+                    <div class="insight-title">💚 Est. Savings</div>
+                    <div class="insight-value" id="estimated-savings">₹0</div>
+                    <div class="insight-desc">By optimized cooking</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- COOKING RECOMMENDATIONS -->
+        <h3 style="color:#374151; margin-bottom:15px; margin-top:30px;">👨‍🍳 AI Cooking Recommendations</h3>
+        <div class="cook-plan" id="cook-plan-container"></div>
+
+        <!-- WASTE ANALYSIS -->
+        <div class="waste-section">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h3 style="margin:0;">🗑️ Yesterday's Waste Analysis</h3>
+                <span id="system-health" class="badge bg-green">✅ System Healthy</span>
+            </div>
+            
+            <div class="table-container">
+                <table class="prof-table">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Cooked</th>
+                            <th>Sold</th>
+                            <th>Wasted</th>
+                            <th>Rate %</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="waste-table-body"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- RECENT ORDERS -->
+        <h3 style="color:#374151; margin-bottom:15px; margin-top:30px;">📋 Recent Orders</h3>
+        <div class="table-container">
+            <table class="prof-table">
+                <thead>
+                    <tr>
+                        <th>Token</th>
+                        <th>Code</th>
+                        <th>Customer</th>
+                        <th>Items</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody id="orders-table-body"></tbody>
+            </table>
+        </div>
+
+        <!-- ACTIONS -->
+        <div style="margin-top:30px; text-align:center; display:flex; gap:10px; justify-content:center;">
+            <button onclick="refreshAdmin()" style="background:var(--primary); color:white; padding:10px 20px; border:none; border-radius:8px; cursor:pointer; font-weight:600;">🔄 Refresh Data</button>
+            <button onclick="handleLogout()" style="background:#ef4444; color:white; padding:10px 20px; border:none; border-radius:8px; cursor:pointer; font-weight:600;">🚪 Logout</button>
+        </div>
+    </div>
+</div>
+
+    <!-- CART BAR -->
+    <div class="cart-bar" id="cart-bar">
+        <div>
+            <div style="font-size:0.75rem; opacity:0.7;">TOTAL</div>
+            <div style="font-size:1.2rem; font-weight:700;">₹<span id="total-price">0</span></div>
+        </div>
+        <button class="pay-btn" onclick="initiatePayment()">Pay with UPI &rarr;</button>
+    </div>
+
+    <!-- SEAT VIEW -->
+<div id="seat-view" class="view-section">
+    <header>
+        <div class="brand"><span>🌱</span> Smart Eco Canteen</div>
+        <button class="role-btn" onclick="goBackToOrder()">← Back</button>
+    </header>
+
+    <div class="content-wrapper">
+        <div class="seat-container">
+            <h2 style="text-align: center; color: #111827; margin-bottom: 30px;">🪑 Seat Availability</h2>
+
+            <!-- STATS -->
+            <div class="seat-stats">
+                <div class="stat-box">
+                    <div class="stat-number" id="available-seats">56</div>
+                    <div class="stat-label">Available</div>
+                </div>
+                <div class="stat-box occupied">
+                    <div class="stat-number" id="occupied-seats">0</div>
+                    <div class="stat-label">Occupied</div>
+                </div>
+                <div class="stat-box total">
+                    <div class="stat-number">56</div>
+                    <div class="stat-label">Total</div>
+                </div>
+            </div>
+
+            <!-- SEAT CHART -->
+            <div class="seat-chart" id="seat-chart"></div>
+
+            <!-- LEGEND -->
+            <div class="seat-legend">
+                <div class="legend-item">
+                    <div class="seat-box available-seat"></div>
+                    <span>Available</span>
+                </div>
+                <div class="legend-item">
+                    <div class="seat-box occupied-seat"></div>
+                    <span>Occupied</span>
+                </div>
+            </div>
+
+            <!-- CUSTOMER LIST -->
+            <div class="customer-list">
+                <h3>👥 Currently Seated Customers</h3>
+                <div id="customer-list-content"></div>
+            </div>
+
+            <button class="refresh-btn" onclick="loadSeats()">🔄 Refresh Seats</button>
+        </div>
+    </div>
+</div>
+
+    <script src="script.js"></script>
+</body>
+</html>
